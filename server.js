@@ -15,9 +15,7 @@ app.use('/*', function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-app.listen(PORT, HOST, () => {
-    console.log(`Server listening on port ${PORT}...`);
-});
+app.listen(PORT, () => console.log('Server listening on port ' +PORT + '...'));
 app.post('/deneme', async (req, res) => {
 
     // let options = {
