@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5555;
 const fs = require('fs');
 const open = require('open');
 app.get('/', function(req, res){
-    res.sendFile('index.html');
+    res.sendFile(__dirname+'/index.html');
 });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
