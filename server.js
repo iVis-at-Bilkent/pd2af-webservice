@@ -19,7 +19,7 @@ app.use('/*', function(req, res, next) {
 });
 app.listen(PORT, () => console.log('Server listening on port ' +PORT + '...'));
 app.post('/deneme', async (req, res) => {
-
+    // console.log(typeof req.body.file);
     // let options = {
     //     header: 'Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryQzlzmdgbQfbawnvk',
     //     filename: req.body.filename,
@@ -28,19 +28,22 @@ app.post('/deneme', async (req, res) => {
 
     // var file = fs.open(req.body.filename);
 
-    await fs.writeFile(req.body.filename, req.body.file, await function (err) {
-        if (err) throw err;
-        console.log('File is created successfully.');
-    });
+    // await fs.writeFile(req.body.filename, req.body.file + "</xml>", await function (err) {
+    //     if (err) throw err;
+    //     console.log('File is created successfully.');
+    // });
 
     const form = new FormData();
 
-    await form.append('file', await fs.createReadStream(req.body.filename));
+    await form.append('file', req.body.file, {
+        filename: req.body.filename,
+        contentType: "text/plain"
+    });
     // await form.append('file', fs.readFileSync(req.body.filename), req.body.filename);
     await form.append('action', 'parse');
     await form.append('filename', req.body.filename);
-
-    console.log('after form');
+    console.log("-------------------")
+    // console.log('after form');
     // console.log(form);
     try {
 
@@ -52,13 +55,24 @@ app.post('/deneme', async (req, res) => {
                     ...form.getHeaders()}
             })
 
-        // console.log(response)
+        console.log(response)
         // console.log("----------")
-        open('http://localhost:3000/?URL=' + response.data.af_fileurl);
-        fs.unlink(req.body.filename, ()=>{});
-        res.send("Success");
+        if(response.data.error_message){
+            let error = {};
+            error.message = response.data.error_message;
+            // error.error = true;
+            res.send(error);
+        }else{
+            // open('https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl);
+            await open('http://localhost:3000/?URL=' + response.data.af_fileurl);
 
+            // await fs.unlink(req.body.filename, ()=>{});
+            // await fs.close();
+            res.send("Success");
+        }
     } catch (error) {
+        // await fs.unlink(req.body.filename, ()=>{});
+
         error.error = true;
         // console.log(error);
         // console.log('error');
