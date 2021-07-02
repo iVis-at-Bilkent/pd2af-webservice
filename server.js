@@ -72,7 +72,7 @@ app.post('/deneme', async (req, res) => {
             // await fs.unlink(req.body.filename, ()=>{});
             // await fs.close();
             console.log("Never seen");
-            res.send(response);
+            res.send("Success");
         }
     } catch (error) {
         // await fs.unlink(req.body.filename, ()=>{});
