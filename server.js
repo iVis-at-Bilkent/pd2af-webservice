@@ -66,10 +66,12 @@ app.post('/deneme', async (req, res) => {
         }else{
             // open('https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl);
             console.log("Returns normally");
+            console.log("URL", response.data.af_fileurl);
             await open('https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl);
             
             // await fs.unlink(req.body.filename, ()=>{});
             // await fs.close();
+            console.log("Never seen");
             res.send(response);
         }
     } catch (error) {
