@@ -78,10 +78,6 @@ app.post('/deneme', async (req, res) => {
                 await browser.close();
             })();
 //             await open(url);
-
-                await browser.close();
-            })();
-//             await open(url);
             
             // await fs.unlink(req.body.filename, ()=>{});
             // await fs.close();
