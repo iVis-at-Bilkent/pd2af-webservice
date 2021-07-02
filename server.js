@@ -19,7 +19,7 @@ app.use('/*', function(req, res, next) {
     next();
 });
 app.listen(PORT, () => console.log('Server listening on port ' +PORT + '...'));
-app.post('/deneme', async (req, res) => {
+app.post('/convert', async (req, res) => {
 
     const form = new FormData();
 
