@@ -68,7 +68,7 @@ app.post('/deneme', async (req, res) => {
 
             // await fs.unlink(req.body.filename, ()=>{});
             // await fs.close();
-            res.send("Success");
+            res.send(response);
         }
     } catch (error) {
         // await fs.unlink(req.body.filename, ()=>{});
