@@ -7,6 +7,7 @@ const HOST = "localhost";
 const PORT = process.env.PORT || 5555;
 const fs = require('fs');
 const open = require('open');
+const puppeteer = require('puppeteer');
 app.get('/', function(req, res){
     res.sendFile(__dirname+'/index.html');
 });
@@ -67,7 +68,15 @@ app.post('/deneme', async (req, res) => {
             // open('https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl);
             console.log("Returns normally");
             console.log("URL", response.data.af_fileurl);
-            await open('https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl);
+            let url = 'https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl;
+            (async () => {
+                const browser = await puppeteer.launch({headless: false});
+                const page = await browser.newPage();
+                await page.goto(url);
+
+                await browser.close();
+            })();
+//             await open(url);
             
             // await fs.unlink(req.body.filename, ()=>{});
             // await fs.close();
