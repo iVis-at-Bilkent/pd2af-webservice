@@ -55,24 +55,26 @@ app.post('/deneme', async (req, res) => {
                     ...form.getHeaders()}
             })
 
-        console.log(response)
+//         console.log(response)
         // console.log("----------")
         if(response.data.error_message){
             let error = {};
+            console.log("Returns error");
             error.message = response.data.error_message;
             // error.error = true;
             res.send(error);
         }else{
             // open('https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl);
+            console.log("Returns normally");
             await open('https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl);
-
+            
             // await fs.unlink(req.body.filename, ()=>{});
             // await fs.close();
             res.send(response);
         }
     } catch (error) {
         // await fs.unlink(req.body.filename, ()=>{});
-
+        console.log("Catched error");
         error.error = true;
         // console.log(error);
         // console.log('error');
