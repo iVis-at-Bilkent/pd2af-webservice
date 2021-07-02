@@ -20,19 +20,6 @@ app.use('/*', function(req, res, next) {
 });
 app.listen(PORT, () => console.log('Server listening on port ' +PORT + '...'));
 app.post('/deneme', async (req, res) => {
-    // console.log(typeof req.body.file);
-    // let options = {
-    //     header: 'Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryQzlzmdgbQfbawnvk',
-    //     filename: req.body.filename,
-    //     filepath: './' + req.body.filename
-    // };
-
-    // var file = fs.open(req.body.filename);
-
-    // await fs.writeFile(req.body.filename, req.body.file + "</xml>", await function (err) {
-    //     if (err) throw err;
-    //     console.log('File is created successfully.');
-    // });
 
     const form = new FormData();
 
@@ -40,12 +27,9 @@ app.post('/deneme', async (req, res) => {
         filename: req.body.filename,
         contentType: "text/plain"
     });
-    // await form.append('file', fs.readFileSync(req.body.filename), req.body.filename);
     await form.append('action', 'parse');
     await form.append('filename', req.body.filename);
-    console.log("-------------------")
-    // console.log('after form');
-    // console.log(form);
+
     try {
 
         console.log(form.getHeaders())
@@ -56,39 +40,21 @@ app.post('/deneme', async (req, res) => {
                     ...form.getHeaders()}
             })
 
-//         console.log(response)
-        // console.log("----------")
         if(response.data.error_message){
             let error = {};
             console.log("Returns error");
             error.message = response.data.error_message;
-            // error.error = true;
             res.send(error);
         }else{
-            // open('https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl);
-            console.log("Returns normally");
-            console.log("URL", response.data.af_fileurl);
             let url = 'https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl;
-            (async () => {
-                const browser = await puppeteer.launch({headless: false});
-                const page = await browser.newPage();
-                await page.goto(url);
 
-                await browser.close();
-            })();
-//             await open(url);
+            // await open(url);
 
-            // await fs.unlink(req.body.filename, ()=>{});
-            // await fs.close();
-            console.log("Never seen");
-            res.send("Success");
+            res.send(url);
         }
     } catch (error) {
-        // await fs.unlink(req.body.filename, ()=>{});
-        console.log("Catched error");
+        // console.log("Catched error");
         error.error = true;
-        // console.log(error);
-        // console.log('error');
         res.send(error);
     }
 });
