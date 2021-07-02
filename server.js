@@ -49,7 +49,7 @@ app.post('/deneme', async (req, res) => {
 
         console.log(form.getHeaders())
 
-        const response = await axios.post('http://localhost:8080/translate', form,
+        const response = await axios.post('http://ec2-3-140-243-255.us-east-2.compute.amazonaws.com/translate', form,
             {
                 headers:{
                     ...form.getHeaders()}
@@ -64,7 +64,7 @@ app.post('/deneme', async (req, res) => {
             res.send(error);
         }else{
             // open('https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl);
-            await open('http://localhost:3000/?URL=' + response.data.af_fileurl);
+            await open('https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl);
 
             // await fs.unlink(req.body.filename, ()=>{});
             // await fs.close();
