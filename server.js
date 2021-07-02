@@ -74,10 +74,15 @@ app.post('/deneme', async (req, res) => {
                 const page = await browser.newPage();
                 await page.goto(url);
 
+
                 await browser.close();
             })();
 //             await open(url);
 
+                await browser.close();
+            })();
+//             await open(url);
+            
             // await fs.unlink(req.body.filename, ()=>{});
             // await fs.close();
             console.log("Never seen");
