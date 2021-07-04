@@ -35,22 +35,23 @@ app.post('/convert', async (req, res) => {
         console.log(form.getHeaders())
 
         const response = await axios.post('http://ec2-3-140-243-255.us-east-2.compute.amazonaws.com/translate', form,
+        // const response = await axios.post('http://localhost:8080/translate', form,
             {
                 headers:{
                     ...form.getHeaders()}
-            })
-
+            });
+        console.log(response);
         if(response.data.error_message){
             let error = {};
             console.log("Returns error");
             error.message = response.data.error_message;
             res.send(error);
         }else{
-            let url = 'https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl;
+            // let url = 'https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl;
 
             // await open(url);
 
-            res.send(url);
+            res.send({url: response.data.af_fileurl, filename: response.data.af_filename});
         }
     } catch (error) {
         // console.log("Catched error");
