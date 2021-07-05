@@ -51,7 +51,7 @@ app.post('/convert', async (req, res) => {
 
             // await open(url);
             let filename =  response.data.af_filename.substr(0, response.data.af_filename.indexOf('.'));
-            filename+= "_af";
+            filename+= "_af.sbgn";
             res.send({url: response.data.af_fileurl, filename: filename});
         }
     } catch (error) {
