@@ -3,8 +3,9 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 const bodyParser = require("body-parser");
-const HOST = "localhost";
+// Change the 5555 if maintainer specifies a port number
 const PORT = process.env.PORT || 5555;
+// Change the Conversion URL according to conversion server's URL, leave the /translate
 const conversion_url = 'http://ec2-3-140-243-255.us-east-2.compute.amazonaws.com/translate';
 app.get('/', function(req, res){
     res.sendFile(__dirname+'/index.html');
@@ -36,10 +37,10 @@ app.post('/convert', async (req, res) => {
         // console.log("Before request");
         const response = await axios.post(conversion_url, form,
         // const response = await axios.post('http://localhost:8080/translate', form,
-            {
-                headers:{
-                    ...form.getHeaders()}
-            });
+        {
+            headers:{
+                ...form.getHeaders()}
+        });
         console.log(response);
         if(response.data.error_message){
             let error = {};
