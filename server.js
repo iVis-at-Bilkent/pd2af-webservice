@@ -9,8 +9,9 @@ const conversion_url = 'http://ec2-3-140-243-255.us-east-2.compute.amazonaws.com
 app.get('/', function(req, res){
     res.sendFile(__dirname+'/index.html');
 });
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+app.use(bodyParser.json({limit: '10mb'}));
+
 app.use('/*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -20,18 +21,19 @@ app.listen(PORT, () => console.log('Server listening on port ' +PORT + '...'));
 app.post('/convert', async (req, res) => {
 
     const form = new FormData();
-
+    // console.log("Adding");
     await form.append('file', req.body.file, {
         filename: req.body.filename,
         contentType: "text/plain"
     });
+    // console.log("Added");
     await form.append('action', 'parse');
     await form.append('filename', req.body.filename);
 
     try {
 
-        console.log(form.getHeaders())
-
+        // console.log(form.getHeaders())
+        // console.log("Before request");
         const response = await axios.post(conversion_url, form,
         // const response = await axios.post('http://localhost:8080/translate', form,
             {
