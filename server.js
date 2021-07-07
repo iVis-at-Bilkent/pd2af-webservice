@@ -20,7 +20,7 @@ app.use('/*', function(req, res, next) {
 });
 app.listen(PORT, () => console.log('Server listening on port ' +PORT + '...'));
 app.post('/convert', async (req, res) => {
-    req.setTimeout(120000);
+    req.setTimeout(1200000);
     const form = new FormData();
     // console.log("Adding");
     await form.append('file', req.body.file, {
@@ -40,7 +40,7 @@ app.post('/convert', async (req, res) => {
         {
             headers:{
                 ...form.getHeaders()},
-            timeout: 120000
+            timeout: 1200000
         });
         console.log(response);
         if(response.data.error_message){
