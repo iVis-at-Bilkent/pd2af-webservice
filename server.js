@@ -20,7 +20,7 @@ app.use('/*', function(req, res, next) {
 });
 app.listen(PORT, () => console.log('Server listening on port ' +PORT + '...'));
 app.post('/convert', async (req, res) => {
-
+    req.setTimeout(120000);
     const form = new FormData();
     // console.log("Adding");
     await form.append('file', req.body.file, {
@@ -39,7 +39,8 @@ app.post('/convert', async (req, res) => {
         // const response = await axios.post('http://localhost:8080/translate', form,
         {
             headers:{
-                ...form.getHeaders()}
+                ...form.getHeaders()},
+            timeout: 120000
         });
         console.log(response);
         if(response.data.error_message){
