@@ -5,9 +5,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const HOST = "localhost";
 const PORT = process.env.PORT || 5555;
-const fs = require('fs');
-const open = require('open');
-const puppeteer = require('puppeteer');
+const conversion_url = 'http://ec2-3-140-243-255.us-east-2.compute.amazonaws.com/translate';
 app.get('/', function(req, res){
     res.sendFile(__dirname+'/index.html');
 });
@@ -34,7 +32,7 @@ app.post('/convert', async (req, res) => {
 
         console.log(form.getHeaders())
 
-        const response = await axios.post('http://ec2-3-140-243-255.us-east-2.compute.amazonaws.com/translate', form,
+        const response = await axios.post(conversion_url, form,
         // const response = await axios.post('http://localhost:8080/translate', form,
             {
                 headers:{
@@ -45,10 +43,10 @@ app.post('/convert', async (req, res) => {
             let error = {};
             console.log("Returns error");
             error.message = response.data.error_message;
+            error.error = true;
             res.send(error);
         }else{
             // let url = 'https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl;
-
             // await open(url);
             let filename =  response.data.af_filename.substr(0, response.data.af_filename.indexOf('.'));
             filename+= "_af.sbgn";
