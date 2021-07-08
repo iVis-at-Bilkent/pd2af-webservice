@@ -1,6 +1,7 @@
 const FormData = require('form-data');
 const express = require('express');
 const axios = require('axios');
+axios.defaults.timeout = 30000;
 const app = express();
 const bodyParser = require("body-parser");
 // Change the 5555 if maintainer specifies a port number
@@ -20,9 +21,8 @@ app.use('/*', function(req, res, next) {
 });
 app.listen(PORT, () => console.log('Server listening on port ' +PORT + '...'));
 app.post('/convert', async (req, res) => {
-    req.setTimeout(1200000);
     const form = new FormData();
-    // console.log("Adding");
+
     await form.append('file', req.body.file, {
         filename: req.body.filename,
         contentType: "text/plain"
@@ -39,14 +39,13 @@ app.post('/convert', async (req, res) => {
         // const response = await axios.post('http://localhost:8080/translate', form,
         {
             headers:{
-                ...form.getHeaders()},
-            timeout: 1200000
+                ...form.getHeaders()}
         });
         console.log(response);
         if(response.data.error_message){
             let error = {};
             console.log("Returns error");
-            error.message = response.data.error_message;
+            error.message = "Conversion failed!";
             error.error = true;
             res.send(error);
         }else{
@@ -59,6 +58,7 @@ app.post('/convert', async (req, res) => {
     } catch (error) {
         // console.log("Catched error");
         error.error = true;
+        error.message = "Conversion timed out!";
         res.send(error);
     }
 });
