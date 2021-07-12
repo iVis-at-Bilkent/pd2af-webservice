@@ -8,8 +8,8 @@ const bodyParser = require("body-parser");
 // Change the port if maintainer specifies a port number
 const PORT = process.env.PORT || 4000;
 // Change the Conversion URL according to conversion server's URL, leave the /translate
-// const conversion_url = 'http://139.179.21.94:3000/translate';
-const conversion_url = 'http://ec2-3-140-243-255.us-east-2.compute.amazonaws.com/translate';
+const conversion_url = 'http://139.179.21.94:3000/translate';
+// const conversion_url = 'http://ec2-3-140-243-255.us-east-2.compute.amazonaws.com/translate';
 app.get('/', function(req, res){
     res.sendFile(__dirname+'/index.html');
 });
@@ -51,7 +51,7 @@ app.post('/convert', async (req, res) => {
             filename+= "_af.sbgn";
 
             // Get the XML file from the url
-            request(response.data.af_fileurl, function (error, response, body) {
+            request(response.data.af_fileurl, function (error, res1, body) {
                 res.send({body: body, filename: filename});
             });
 
