@@ -1,13 +1,15 @@
 const FormData = require('form-data');
 const express = require('express');
 const axios = require('axios');
+const request = require('request');
+
 axios.defaults.timeout = 60000; // Default timeout is set to one minute
 const app = express();
 const bodyParser = require("body-parser");
 // Change the port if maintainer specifies a port number
 const PORT = process.env.PORT || 4000;
 // Change the Conversion URL according to conversion server's URL, leave the /translate
-const conversion_url = 'http://localhost:3000/translate';
+const conversion_url = 'http://localhost:8080/translate';
 app.get('/', function(req, res){
     res.sendFile(__dirname+'/index.html');
 });
@@ -45,9 +47,20 @@ app.post('/convert', async (req, res) => {
             error.error = true;
             res.send(error);
         }else{
+            var options = {
+                host: 'localhost',
+                port: 8080,
+                path: '/' + response.data.af_filename
+            };
+
             let filename =  response.data.af_filename.substr(0, response.data.af_filename.indexOf('.'));
             filename+= "_af.sbgn";
-            res.send({url: response.data.af_fileurl, filename: filename});
+
+            // Get the XML file from the url
+            request(response.data.af_fileurl, function (error, response, body) {
+                res.send({body: body, filename: filename});
+            });
+
         }
     } catch (error) {
         error.error = true;
