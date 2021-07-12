@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 // Change the 5555 if maintainer specifies a port number
 const PORT = process.env.PORT || 5555;
 // Change the Conversion URL according to conversion server's URL, leave the /translate
-const conversion_url = 'http://ec2-3-140-243-255.us-east-2.compute.amazonaws.com/translate';
+const conversion_url = 'http://localhost:3000/translate';
 app.get('/', function(req, res){
     res.sendFile(__dirname+'/index.html');
 });
@@ -36,7 +36,6 @@ app.post('/convert', async (req, res) => {
         // console.log(form.getHeaders())
         // console.log("Before request");
         const response = await axios.post(conversion_url, form,
-        // const response = await axios.post('http://localhost:8080/translate', form,
         {
             headers:{
                 ...form.getHeaders()}
@@ -49,14 +48,11 @@ app.post('/convert', async (req, res) => {
             error.error = true;
             res.send(error);
         }else{
-            // let url = 'https://newtpd2af.herokuapp.com/?URL=' + response.data.af_fileurl;
-            // await open(url);
             let filename =  response.data.af_filename.substr(0, response.data.af_filename.indexOf('.'));
             filename+= "_af.sbgn";
             res.send({url: response.data.af_fileurl, filename: filename});
         }
     } catch (error) {
-        // console.log("Catched error");
         error.error = true;
         error.message = "Conversion timed out!";
         res.send(error);
