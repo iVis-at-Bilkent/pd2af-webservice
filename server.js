@@ -27,20 +27,17 @@ app.post('/convert', async (req, res) => {
         filename: req.body.filename,
         contentType: "text/plain"
     });
-    // console.log("Added");
+
     await form.append('action', 'parse');
     await form.append('filename', req.body.filename);
 
     try {
-
-        // console.log(form.getHeaders())
-        // console.log("Before request");
         const response = await axios.post(conversion_url, form,
         {
             headers:{
                 ...form.getHeaders()}
         });
-        console.log(response);
+        // console.log(response);
         if(response.data.error_message){
             let error = {};
             console.log("Returns error");
