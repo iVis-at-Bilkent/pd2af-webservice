@@ -1,7 +1,7 @@
 const FormData = require('form-data');
 const express = require('express');
 const axios = require('axios');
-axios.defaults.timeout = 30000;
+axios.defaults.timeout = 60000; // Default timeout is set to one minute
 const app = express();
 const bodyParser = require("body-parser");
 // Change the 5555 if maintainer specifies a port number
