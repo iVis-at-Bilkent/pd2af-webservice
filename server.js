@@ -4,8 +4,8 @@ const axios = require('axios');
 axios.defaults.timeout = 60000; // Default timeout is set to one minute
 const app = express();
 const bodyParser = require("body-parser");
-// Change the 5555 if maintainer specifies a port number
-const PORT = process.env.PORT || 5555;
+// Change the port if maintainer specifies a port number
+const PORT = process.env.PORT || 4000;
 // Change the Conversion URL according to conversion server's URL, leave the /translate
 const conversion_url = 'http://localhost:3000/translate';
 app.get('/', function(req, res){
