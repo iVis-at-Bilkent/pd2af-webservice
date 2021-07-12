@@ -47,11 +47,6 @@ app.post('/convert', async (req, res) => {
             error.error = true;
             res.send(error);
         }else{
-            var options = {
-                host: 'localhost',
-                port: 8080,
-                path: '/' + response.data.af_filename
-            };
 
             let filename =  response.data.af_filename.substr(0, response.data.af_filename.indexOf('.'));
             filename+= "_af.sbgn";
