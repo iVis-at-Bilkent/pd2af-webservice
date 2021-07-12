@@ -7,9 +7,9 @@ git reset --hard origin/main
 
 # build
 echo -e "\nBuilding npm..."
-npm init
+npm update
 
 # restart service
 echo -e "\nRestarting server..."
-sudo pm2 restart server.js
+sudo pm2 restart pd2af-webservice.js
 echo "Done!"
